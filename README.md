@@ -1,6 +1,6 @@
 # LiveDetect
 
-LiveDetect is a tool designed to process local video stream captured via camera, and execute machine learning models on every frame using DeepDetect.
+LiveDetect is a tool designed to process local video stream captured via camera, and execute machine learning models on every frame using [DeepDetect](https://github.com/jolibrain/deepdetect/).
 
 ![Example Traffic](example-traffic.gif)
 
