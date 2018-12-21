@@ -6,7 +6,7 @@ LiveDetect is a tool designed to process local video stream captured via camera,
 
 ## Quickstart
 
-**NOTE:** IF YOU ARE USING A RASPBERRY PI, WE MADE A SPECIAL SECTION WITH A STEP-BY-STEP TUTORIAL [HERE](https://github.com/jolibrain/livedetect/wiki/Step-by-step-for-Raspberry-Pi-3).
+**NOTE:** If you are using a **Raspberry Pi**, we made a step-by-step tutorial [here](https://github.com/jolibrain/livedetect/wiki/Step-by-step-for-Raspberry-Pi-3).
 
 Install the dependencies for LiveDetect:
 
