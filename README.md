@@ -10,9 +10,9 @@ Quickstart example for running LiveDetect on a Raspberry Pi 3B+:
 
 - `sudo apt install libjpeg-dev`
 
-- `wget https://github.com/jolibrain/LiveDetect/releases...`
+- `wget https://github.com/jolibrain/livedetect/releases/download/v1.0.0/livedetect-rpi3`
 
-- `tar xvf livedetect-pi3.tar.gz && chmod +x livedetect`
+- `chmod +x livedetect-rpi3`
 
 
 **NOTE:** If you want to build LiveDetect by yourself, please refeer to the **Build** section of this README.
