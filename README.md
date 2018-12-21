@@ -136,11 +136,11 @@ Finally, set the GoPATH, for this, refeer to [this page](https://github.com/gola
 
 Now that you have the required packages fetch LiveDetect:
 
-`go get -u github.com/jolibrain/LiveDetect`
+`go get -u github.com/jolibrain/livedetect`
 
 Move in the directory containing the sources:
 
-`cd $GOPATH/src/github.com/jolibrain/LiveDetect`
+`cd $GOPATH/src/github.com/jolibrain/livedetect`
 
 Fetch all dependencies remaining:
 
