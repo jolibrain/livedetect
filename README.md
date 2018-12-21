@@ -6,9 +6,46 @@ LiveDetect is a tool designed to process local video stream captured via camera,
 
 ## Quickstart
 
-Quickstart example for running LiveDetect on a Raspberry Pi 3B+:
+**NOTE:** this quickstart example can be followed perfectly on a Raspberry Pi 3B+, running [Raspbian](https://www.raspberrypi.org/downloads/raspbian/).
+
+First, prepare your Pi, if you wish to use the *picamera* instead of an USB webcam activate it using:
+
+- `sudo raspi-config`
+
+Use the cursor keys to move to the camera option, and select 'enable'. On exiting  raspi-config, it will ask to reboot. The enable option will ensure that on reboot the correct GPU firmware will be running with the camera driver and tuning, and the GPU memory split is sufficient to allow the camera to acquire enough memory to run correctly.
+Using the *raspi-config* tool, you can also activate SSH and expand the filesystem to the whole SD card, if you feel the need.
+
+You will also need a decent amount of SWAP, check how much your system have:
+
+- `free -m`
+
+You should get this kind of output:
+
+```
+              total        used        free      shared  buff/cache   available
+Mem:            927          31         828           0          67         845
+Swap:          1023          30         993
+```
+
+If you notice that the total SWAP available (here 1023) is below 1000, follow the next steps.
+To resize the SWAP to a decent amount, execute the following command:
+
+- `sudo nano /etc/dphys-swapfile
+
+And change the **CONF_SWAPSIZE** value for 1024.
+
+Finally, reload your SWAP setting:
+
+- `sudo /sbin/dphys-swapfile setup`
+- `sudo /sbin/dphys-swapfile swapoff`
+- `sudo /sbin/dphys-swapfile swapon`
+
+You're ready for the next step!
+Install the dependencies for LiveDetect:
 
 - `sudo apt install libjpeg-dev`
+
+Download the binary for Raspberry Pi 3 system and make it executable:
 
 - `wget https://github.com/jolibrain/livedetect/releases/download/v1.0.0/livedetect-rpi3`
 
@@ -17,7 +54,7 @@ Quickstart example for running LiveDetect on a Raspberry Pi 3B+:
 
 **NOTE:** If you want to build LiveDetect by yourself, please refeer to the **Build** section of this README.
 
-First, you need a **DeepDetect** instance running and accessible from the machine where you want to use LiveDetect.
+You need a **DeepDetect** instance running and accessible from the machine where you want to use LiveDetect.
 
 If you want to run DeepDetect directly on a Raspberry Pi 3, here is a sample command to start a DeepDetect container with only NCNN as back-end (well suited for running directly on a Raspberry Pi).
 
