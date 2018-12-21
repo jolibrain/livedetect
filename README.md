@@ -82,7 +82,7 @@ Finally, reload your SWAP setting:
     --mllib ncnn \
     --width 300 --height 300 \
     --detection \
-    --create --repository /home/pi/face/ \
+    --create --repository /opt/models/face/ \
     --init "https://www.deepdetect.com/models/init/ncnn/squeezenet_ssd_faces_ncnn_300x300.tar.gz" \
     --confidence 0.3 \
     --device-id 0 \
