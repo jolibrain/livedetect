@@ -10,7 +10,7 @@ Install the dependencies for LiveDetect:
 
 - `sudo apt install libjpeg-dev`
 
-Download the binary for Raspberry Pi 3 system on the [releases page](https://github.com/jolibrain/livedetect/releases) and make it executable using:
+Download the binary for you system on the [releases page](https://github.com/jolibrain/livedetect/releases) and make it executable using:
 
 - `chmod +x livedetect`
 
