@@ -41,21 +41,22 @@ You're ready for the following examples!
 
 ```
 ./livedetect \
-    --host 127.0.0.1 \
     --port 8080 \
+    --host 127.0.0.1 \
+    --mllib ncnn \
     --width 300 --height 300 \
-    --create \
-    --repository /opt/models/face-detect \
-    --init https://www.deepdetect.com/models/init/ncnn/squeezenet_ssd_faces_ncnn_300x300.tar.gz \
+    --detection \
+    --create --repository /home/pi/face/ \
+    --init "https://www.deepdetect.com/models/init/ncnn/squeezenet_ssd_faces_ncnn_300x300.tar.gz" \
     --confidence 0.3 \
-    --nclasses 21 \
     --device-id 0 \
+    -v INFO \
     -P "0.0.0.0:8888" \
-    --service face-detect \
-    -v INFO
+    --service face \
+    --nclasses 2
 ```
 
-This command start LiveDetect and tell the DeepDetect instance located at 167.389.279.99:4242 to create a service named `face-detect`.
+This command start LiveDetect and tell the DeepDetect instance located at 127.0.0.1:8080 to create a service named `face-detect`.
 
 This service takes 300x300 pictures for a detection process with the model located at the adress specified by `--init`, that have 2 classes.
 
