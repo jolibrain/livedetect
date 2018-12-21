@@ -6,7 +6,38 @@ LiveDetect is a tool designed to process local video stream captured via camera,
 
 ## Quickstart
 
-**NOTE:** this quickstart example can be followed perfectly on a Raspberry Pi 3B+, running [Raspbian](https://www.raspberrypi.org/downloads/raspbian/).
+Install the dependencies for LiveDetect:
+
+- `sudo apt install libjpeg-dev`
+
+Download the binary for Raspberry Pi 3 system on the [releases page](https://github.com/jolibrain/livedetect/releases) and make it executable using:
+
+- `chmod +x livedetect`
+
+
+**NOTE:** If you want to build LiveDetect by yourself, please refeer to the **Build** section of this README.
+
+You need a **DeepDetect** instance running and accessible from the machine where you want to use LiveDetect.
+
+If you want to run DeepDetect directly on a Raspberry Pi 3, here is a sample command to start a DeepDetect container with only NCNN as back-end (well suited for running directly on a Raspberry Pi).
+
+- `docker run -d -p 8080:8080 -v $HOME/models:/opt/models jolibrain/deepdetect_ncnn_pi3`
+
+For an AMD64 container, CPU-only, using Caffe:
+
+- `docker run -d -p 8080:8080 -v $HOME/models:/opt/models beniz/deepdetect_cpu`
+
+Or if you want a GPU build:
+
+- `docker run -d -p 8080:8080 -v $HOME/models:/opt/models beniz/deepdetect_gpu`
+
+**NOTE:** for the GPU container, you need to install [nvidia-docker](https://github.com/NVIDIA/nvidia-docker).
+
+You're ready for the following examples!
+
+## Special note for Raspberry Pi
+
+**NOTE:** this special note can be followed perfectly on a Raspberry Pi 3B+, running [Raspbian](https://www.raspberrypi.org/downloads/raspbian/).
 
 First, prepare your Pi, if you wish to use the *picamera* instead of an USB webcam activate it using:
 
@@ -39,38 +70,6 @@ Finally, reload your SWAP setting:
 - `sudo /sbin/dphys-swapfile setup`
 - `sudo /sbin/dphys-swapfile swapoff`
 - `sudo /sbin/dphys-swapfile swapon`
-
-You're ready for the next step!
-Install the dependencies for LiveDetect:
-
-- `sudo apt install libjpeg-dev`
-
-Download the binary for Raspberry Pi 3 system and make it executable:
-
-- `wget https://github.com/jolibrain/livedetect/releases/download/v1.0.0/livedetect-rpi3`
-
-- `chmod +x livedetect-rpi3`
-
-
-**NOTE:** If you want to build LiveDetect by yourself, please refeer to the **Build** section of this README.
-
-You need a **DeepDetect** instance running and accessible from the machine where you want to use LiveDetect.
-
-If you want to run DeepDetect directly on a Raspberry Pi 3, here is a sample command to start a DeepDetect container with only NCNN as back-end (well suited for running directly on a Raspberry Pi).
-
-- `docker run -d -p 8080:8080 -v $HOME/models:/opt/models jolibrain/deepdetect_ncnn_pi3`
-
-For an AMD64 container, CPU-only, using Caffe:
-
-- `docker run -d -p 8080:8080 -v $HOME/models:/opt/models beniz/deepdetect_cpu`
-
-Or if you want a GPU build:
-
-- `docker run -d -p 8080:8080 -v $HOME/models:/opt/models beniz/deepdetect_gpu`
-
-**NOTE:** for the GPU container, you need to install [nvidia-docker](https://github.com/NVIDIA/nvidia-docker).
-
-You're ready for the following examples!
 
 ## Examples
 
