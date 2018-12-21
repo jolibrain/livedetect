@@ -30,7 +30,7 @@ Swap:          1023          30         993
 If you notice that the total SWAP available (here 1023) is below 1000, follow the next steps.
 To resize the SWAP to a decent amount, execute the following command:
 
-- `sudo nano /etc/dphys-swapfile
+- `sudo nano /etc/dphys-swapfile`
 
 And change the **CONF_SWAPSIZE** value for 1024.
 
