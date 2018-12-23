@@ -58,7 +58,7 @@ You're ready for the following examples!
     --nclasses 2
 ```
 
-This command start LiveDetect and tell the DeepDetect instance located at 127.0.0.1:8080 to create a service named `face-detect`.
+This command start LiveDetect and tell the DeepDetect instance located at 127.0.0.1:8080 to create a service named `face`.
 
 This service takes 300x300 pictures for a detection process with the model located at the adress specified by `--init`, that have 2 classes.
 
