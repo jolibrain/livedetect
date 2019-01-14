@@ -31,7 +31,7 @@ import (
 	"os"
 	"time"
 
-	client "github.com/influxdata/influxdb/client/v2"
+	client "github.com/influxdata/influxdb1-client/v2"
 	"github.com/labstack/gommon/color"
 	"golang.org/x/crypto/ssh/terminal"
 )

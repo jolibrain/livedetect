@@ -35,7 +35,7 @@ import (
 	"time"
 
 	"github.com/gosuri/uilive"
-	client "github.com/influxdata/influxdb/client/v2"
+	client "github.com/influxdata/influxdb1-client/v2"
 	"github.com/korandiz/v4l"
 	"github.com/korandiz/v4l/fmt/mjpeg"
 	"github.com/labstack/gommon/color"
