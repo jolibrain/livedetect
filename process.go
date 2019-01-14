@@ -103,9 +103,9 @@ func process(cam *v4l.Device) {
 		if arguments.Keep == true {
 			imagePath = arguments.Output + "/" + currentTime.Format("2006-01-02-15-04-05") + ".jpg"
 		} else {
-			imagePath = currentTime.Format("2006-01-02-15-04-05") + ".jpg"
+			imagePath = currentTime.Format("2006-01-02-15-04-05")
 		}
-		if arguments.Verbose == "DEBUG" {
+		/*if arguments.Verbose == "DEBUG" {
 			logSuccess(color.Cyan("Saving frame to ")+
 				color.Yellow(imagePath), "["+
 				ID+"] [DEBUG]")
@@ -117,7 +117,7 @@ func process(cam *v4l.Device) {
 
 			logSuccess("Sending to DeepDetect for processing", "["+
 				ID+"] [INFO]")
-		}
+		}*/
 
 		// Process image with DeepDetect
 		deepdetectProcess(imagePath, ID, img, start, imageBase64)
