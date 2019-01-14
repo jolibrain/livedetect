@@ -41,9 +41,9 @@ func deepdetectProcess(imagePath string, ID string, img image.Image, startTime t
 
 	// Generate predict URL
 	if arguments.SSL == true {
-		predictURL = "https://" + arguments.Host + ":" + arguments.Port + "/predict"
+		predictURL = "https://" + arguments.Host + ":" + arguments.Port
 	} else {
-		predictURL = "http://" + arguments.Host + ":" + arguments.Port + "/predict"
+		predictURL = "http://" + arguments.Host + ":" + arguments.Port
 	}
 
 	// Execute predict
