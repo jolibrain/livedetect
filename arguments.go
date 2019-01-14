@@ -166,12 +166,12 @@ func argumentsParsing(args []string) {
 
 	verbose := parser.Selector("v", "verbose", []string{"INFO", "DEBUG"}, &argparse.Options{
 		Required: false,
-		Help:     "Verbosity",
-		Default:  ""})
+		Help:     "Verbosity, INFO or DEBUG",
+		Default:  "INFO"})
 
 	detection := parser.Flag("d", "detection", &argparse.Options{
 		Required: false,
-		Help:     "Run a detection model and perform bouding boxes writing on captured frames",
+		Help:     "Run a detection model and perform bounding boxes writing on captured frames",
 		Default:  false})
 
 	// Mask support
