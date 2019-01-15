@@ -49,6 +49,10 @@ func createService(URL string) {
 	service.Parameters.Mllib.Nclasses = arguments.Nclasses
 	service.Parameters.Mllib.GPU = arguments.GPU
 
+	if service.Model.Init != "" {
+	   service.Model.CreateRepository = true
+	}	
+
 	// Mask support
 	if arguments.Mask == true {
 		service.Mllib = "caffe2"
@@ -72,14 +76,13 @@ func createService(URL string) {
 		log.Fatal(err)
 	}
 
-	// Error handling
-	if creationResult.Status.Code == 500 {
+			// Error handling
+	log.Println("creation status=",creationResult.Status.Code)
+	if creationResult.Status.Code != 201 {
 		logError("Unable to create service!", "[ERROR]")
 		logError("Error: "+creationResult.Status.Msg, "[ERROR]")
-	}
-
-	// Log success
-	if creationResult.Status.Code == 200 {
+		//os.Exit(1)
+	} else {
 		logSuccess("Service created!", "[INFO]")
 	}
 }
