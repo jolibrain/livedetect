@@ -374,4 +374,8 @@ func argumentsParsing(args []string) {
 	arguments.InfluxUser = *influxUser
 	arguments.InfluxPass = *influxPass
 	arguments.InfluxDB = *influxDB
+
+	if arguments.Mask == true {
+	   arguments.Detection = true
+	}
 }
