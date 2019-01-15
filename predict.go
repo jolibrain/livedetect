@@ -27,7 +27,7 @@
 package main
 
 import (
-	"github.com/CorentinB/godd"
+	"github.com/jolibrain/godd"
 )
 
 func predict(URL string, image string, ID string) godd.PredictResult {

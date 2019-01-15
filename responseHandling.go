@@ -34,7 +34,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/CorentinB/godd"
+	"github.com/jolibrain/godd"
 	"github.com/labstack/gommon/color"
 	jpeg "github.com/pixiv/go-libjpeg/jpeg"
 )

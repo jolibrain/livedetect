@@ -33,7 +33,7 @@ import (
 	"math/rand"
 
 	"github.com/CorentinB/gobbox"
-	"github.com/CorentinB/godd"
+	"github.com/jolibrain/godd"
 )
 
 func writeSquare(red, green, blue uint8, x, y int, img draw.Image) {

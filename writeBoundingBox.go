@@ -32,7 +32,7 @@ import (
 	"image/draw"
 
 	"github.com/CorentinB/gobbox"
-	"github.com/CorentinB/godd"
+	"github.com/jolibrain/godd"
 )
 
 func writeBoundingBox(img image.Image, result godd.PredictResult, class int, ID string) (imgRGBA *image.RGBA) {

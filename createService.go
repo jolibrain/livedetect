@@ -30,7 +30,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/CorentinB/godd"
+	"github.com/jolibrain/godd"
 )
 
 func createService(URL string) {
