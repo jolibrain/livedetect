@@ -21,17 +21,19 @@ Download the binary for you system on the [releases page](https://github.com/jol
 
 You need a **DeepDetect** instance running and accessible from the machine where you want to use LiveDetect.
 
+First create a `models` directory, typically located in your $HOME for the examples above to run without change.
+
 If you want to run DeepDetect directly on a Raspberry Pi 3, here is a sample command to start a DeepDetect container with only NCNN as back-end (well suited for running directly on a Raspberry Pi).
 
-- `docker run -d -p 8080:8080 -v $HOME/models:/opt/models beniz/deepdetect_ncnn_pi3`
+- `docker run -d -p 8080:8080 -v $HOME/models:/opt/models jolibrain/deepdetect_ncnn_pi3`
 
 For a CPU-only build, using Caffe:
 
-- `docker run -d -p 8080:8080 -v $HOME/models:/opt/models beniz/deepdetect_cpu`
+- `docker run -d -p 8080:8080 -v $HOME/models:/opt/models jolibrain/deepdetect_cpu`
 
 Or if you want a GPU build:
 
-- `docker run -d -p 8080:8080 -v $HOME/models:/opt/models beniz/deepdetect_gpu`
+- `docker run -d -p 8080:8080 -v $HOME/models:/opt/models jolibrain/deepdetect_gpu`
 
 **NOTE:** for the GPU container, you need to install [nvidia-docker](https://github.com/NVIDIA/nvidia-docker).
 
