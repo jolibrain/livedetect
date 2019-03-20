@@ -128,7 +128,7 @@ func main() {
 	// Set parameters
 	cfg.Format = mjpeg.FourCC
 	cfg.Width = arguments.Width
-	cfg.Width = arguments.Width
+	cfg.Height = arguments.Height
 
 	// Apply config
 	err = cam.SetConfig(cfg)
