@@ -41,6 +41,7 @@ func predict(URL string, image string, ID string) godd.PredictResult {
 	predict.Parameters.Output.Best = arguments.Best
 	predict.Parameters.Output.Bbox = arguments.Detection
 	predict.Parameters.Output.ConfidenceThreshold = arguments.Confidence
+	predict.Parameters.Mllib.GPU = arguments.GPU
 	predict.Data = append(predict.Data, image)
 
 	// Mask support
