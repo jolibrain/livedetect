@@ -84,13 +84,13 @@ When the download is complete, go to the directory the file has been downloaded 
 
 A `go` directory will automatically be added to your `$HOME`. 
 
-Add `$HOME/go/bin` to the PATH environment variable. You can do this by adding this line to your `/etc/profile` (for a system-wide installation) or `$HOME/.profile`:
+Finally, you should set the GoPATH. Add `$HOME/go/bin` to the PATH environment variable. You can do this by adding this line to your `/etc/profile` (for a system-wide installation) or `$HOME/.profile`:
 
 `export PATH=$PATH:$HOME/go/bin`
 
 **Note**: changes made to a profile file may not apply until the next time you log into your computer. To apply the changes immediately, just refresh the file with `source $HOME/.profile`.
 
-Finally, set the GoPATH, for this, refer to [this page](https://github.com/golang/go/wiki/SettingGOPATH).
+For more, refer to [this page](https://github.com/golang/go/wiki/SettingGOPATH).
 
 #### LiveDetect build
 
@@ -118,15 +118,15 @@ You're ready for the following examples!
 
 ### Face detection + bounding boxes on web preview
 
-#### For Raspberry Pi
-
-This command starts LiveDetect and tells the DeepDetect instance located at 127.0.0.1:8080 to create a service named `face`.
+This example starts LiveDetect and tells the DeepDetect instance located at 127.0.0.1:8080 to create a service named `face`.
 
 This service takes 300x300 pictures for a detection process with the model located at the adress specified by `--init`, that have 2 classes.
 
 The preview is displayed on port 8888, specified with `-P`.
 
 V4L uses `--device-id` as the capture device (here device 0) and verbosity at the INFO level is triggered by `-v INFO`.
+
+#### For Raspberry Pi
 
 ```
 ./livedetect-rpi3 \
