@@ -54,7 +54,7 @@ sudo usermod -aG docker $USER
 
 - `docker run -d -p 8080:8080 -v $HOME/models:/opt/models jolibrain/deepdetect_cpu`
 
-**If you are using a Nvidia's GPU**(not for Jetson ARM boards), you need to install [nvidia-docker](https://github.com/NVIDIA/nvidia-docker). Once it's installed, you can make a GPU build:
+**If you are using a Nvidia's GPU** (not for Jetson ARM boards), you need to install [nvidia-docker](https://github.com/NVIDIA/nvidia-docker). Once it's installed, you can make a GPU build:
 
 - `docker run -d -p 8080:8080 -v $HOME/models:/opt/models jolibrain/deepdetect_gpu`
 
@@ -147,25 +147,6 @@ V4L uses `--device-id` as the capture device (here device 0) and verbosity at th
 
 #### For Desktop
 
-marche pas
-```
-./livedetect \
-    --port 8080 \
-    --host 127.0.0.1 \
-    --mllib caffe \
-    --width 300 --height 300 \
-    --detection \
-    --create --repository /opt/models/face/ \
-    --init "https://www.deepdetect.com/models/init/ncnn/squeezenet_ssd_faces_300x300.tar.gz" \
-    --confidence 0.3 \
-    --device-id 0 \
-    -v INFO \
-    -P "0.0.0.0:8888" \
-    --service face \
-    --nclasses 2
-```
-
-
 ```
 ./livedetect \
     --port 8080 \
@@ -186,7 +167,6 @@ marche pas
 
 #### For Nvidia's GPU
 
-meme modele que rpi3
 ```
 ./livedetect \
     --port 8080 \
@@ -196,25 +176,6 @@ meme modele que rpi3
     --detection \
     --create --repository /opt/models/face/ \
     --init "https://www.deepdetect.com/models/init/ncnn/squeezenet_ssd_faces_ncnn_300x300.tar.gz" \
-    --confidence 0.3 \
-    --device-id 0 \
-    -v INFO \
-    --gpu \
-    -P "0.0.0.0:8888" \
-    --service face \
-    --nclasses 2
-```
-
-modele specifique
-```
-./livedetect \
-    --port 8080 \
-    --host 127.0.0.1 \
-    --mllib ncnn \
-    --width 300 --height 300 \
-    --detection \
-    --create --repository /opt/models/face/ \
-    --init "https://www.deepdetect.com/models/init/embedded/images/detection/squeezenet_ssd_faces_ncnn.tar.gz " \
     --confidence 0.3 \
     --device-id 0 \
     -v INFO \
