@@ -240,4 +240,6 @@ To use InfluxDB, you first need to pass the `--influx` argument, then you can sp
 
 - **There's a delay in the video output**: This is a known issue that when the processing is much slower than frames input, a delay builds between the live input and output. Our current in-the-work solution to this is a specialized video input library named [libvnn](https://github.com/jolibrai/libvnn/)
 
+- **Running DeepDetect on one machine and LiveDetect on another**: This is a common setup, typically running the DeepDetect container on a powerful GPU machine, and the LiveDetect binary somewhere near the camera, on a small board. Simply use the `--host` and `--port` parameters to fit your setup.
+
 
