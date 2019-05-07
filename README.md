@@ -150,7 +150,7 @@ V4L uses `--device-id` as the capture device (here device 0) and verbosity at th
 ./livedetect \
     --port 8080 \
     --host 127.0.0.1 \
-    --mllib caffe \
+    --mllib ncnn \
     --width 300 --height 300 \
     --detection \
     --create --repository /opt/models/face/ \
@@ -170,7 +170,7 @@ V4L uses `--device-id` as the capture device (here device 0) and verbosity at th
 ./livedetect \
     --port 8080 \
     --host 127.0.0.1 \
-    --mllib ncnn \
+    --mllib caffe \
     --width 300 --height 300 \
     --detection \
     --create --repository /opt/models/face/ \
@@ -234,5 +234,10 @@ To use InfluxDB, you first need to pass the `--influx` argument, then you can sp
     --influx-db livedetect
 ```
 
+## FAQ and Issues
+
+- **Bounding box in the live feed are misplaced**: This is mostly due to your camera not resizing its output to fit the neural network input. In that case, look at the output dimension from the video output tab in your browser, and modify the `--width` and `--height` parameters accordingly. In practice this means the processing will be slower due to the processing of larger input frames
+
+- **There's a delay in the video output**: This is a known issue that when the processing is much slower than frames input, a delay builds between the live input and output. Our current in-the-work solution to this is a specialized video input library named [libvnn](https://github.com/jolibrai/libvnn/)
 
 
