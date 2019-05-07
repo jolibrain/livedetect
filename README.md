@@ -117,7 +117,7 @@ You're ready for the following examples!
 
 ### Face detection + bounding boxes on web preview
 
-This example starts LiveDetect and tells the DeepDetect instance listening from localhost:8080 to create a service named `face`.
+This example starts LiveDetect and tells the DeepDetect instance listening from localhost:8080 to create a service named `voc`.
 
 This service takes 300x300 frames and detect faces using the model fetched from the remote location specified by `--init`.
 
@@ -134,14 +134,13 @@ V4L uses `--device-id` as the capture device (here device 0) and verbosity at th
     --mllib ncnn \
     --width 300 --height 300 \
     --detection \
-    --create --repository /opt/models/face/ \
-    --init "https://www.deepdetect.com/models/init/ncnn/squeezenet_ssd_faces_ncnn_300x300.tar.gz" \
+    --create --repository /opt/models/voc/ \
+    --init "https://www.deepdetect.com/models/init/ncnn/squeezenet_ssd_voc_ncnn_300x300.tar.gz" \
     --confidence 0.3 \
-    --device-id 0 \
     -v INFO \
     -P "0.0.0.0:8888" \
-    --service face \
-    --nclasses 2
+    --service voc \
+    --nclasses 21
 ```
 
 #### For Desktop
@@ -153,14 +152,14 @@ V4L uses `--device-id` as the capture device (here device 0) and verbosity at th
     --mllib ncnn \
     --width 300 --height 300 \
     --detection \
-    --create --repository /opt/models/face/ \
-    --init "https://www.deepdetect.com/models/init/ncnn/squeezenet_ssd_faces_ncnn_300x300.tar.gz" \
+    --create --repository /opt/models/voc/ \
+    --init "https://www.deepdetect.com/models/init/ncnn/squeezenet_ssd_voc_ncnn_300x300.tar.gz" \
     --confidence 0.3 \
     --device-id 0 \
     -v INFO \
     -P "0.0.0.0:8888" \
-    --service face \
-    --nclasses 2
+    --service voc \
+    --nclasses 21
 ```
 
 
@@ -173,15 +172,14 @@ V4L uses `--device-id` as the capture device (here device 0) and verbosity at th
     --mllib caffe \
     --width 300 --height 300 \
     --detection \
-    --create --repository /opt/models/face/ \
-    --init "https://www.deepdetect.com/models/init/desktop/images/detection/faces_512.tar.gz" \
+    --create --repository /opt/models/voc/ \
+    --init "https://deepdetect.com/models/init/desktop/images/detection/detection_600.tar.gz" \
     --confidence 0.3 \
-    --device-id 0 \
     -v INFO \
     --gpu \
     -P "0.0.0.0:8888" \
-    --service face \
-    --nclasses 2
+    --service voc \
+    --nclasses 601
 ```
 
 
