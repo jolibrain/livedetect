@@ -1,6 +1,13 @@
 # LiveDetect
 
-LiveDetect is a tool designed to process local video streams captured via camera, and execute machine learning models on each frame using [DeepDetect](https://github.com/jolibrain/deepdetect/). LiveDetect can be run on your desktop, on a Raspberry Pi 3 or on a Nvidia's GPU. 
+LiveDetect is a tool designed to easily process local video streams with Deep Learning models.
+
+The code reads live imagery from a camera and processes every frame using [DeepDetect](https://github.com/jolibrain/deepdetect/).
+
+LiveDetect and DeepDetect run on Desktop, any CPU, Nvidia's GPU, and Raspberry Pi3 (and other ARM devices) alike. 
+
+Pre-trained Deep Learning [models](https://www.deepdetect.com/models/?opts={%22media%22:%22image%22,%22type%22:%22type-all%22,%22backend%22:[%22caffe%22,%22ncnn%22],%22platform%22:%22desktop%22,%22searchTerm%22:%22%22}#) are made available for [desktop](https://www.deepdetect.com/models/?opts={%22media%22:%22image%22,%22type%22:%22type-all%22,%22backend%22:[%22caffe%22,%22ncnn%22,%22caffe2%22,%22tensorflow%22],%22platform%22:%22desktop%22,%22searchTerm%22:%22%22}#) and [embedded systems like the Raspberry Pi](https://www.deepdetect.com/models/?opts={%22media%22:%22image%22,%22type%22:%22type-all%22,%22backend%22:[%22caffe%22,%22ncnn%22],%22platform%22:%22embedded%22,%22searchTerm%22:%22%22}#). 
+
 
 Real-world use cases from DeepDetect customers with LiveDetect:
 
@@ -16,7 +23,7 @@ Real-world use cases from DeepDetect customers with LiveDetect:
 
 If you are using a **Raspberry Pi**, we made a step-by-step specific tutorial for the set up part [here](https://github.com/jolibrain/livedetect/wiki/Step-by-step-for-Raspberry-Pi-3). This tutorial is going to help you get your Raspberry Pi 3 ready. Once it's ready you can refer to the [examples section](https://github.com/jolibrain/livedetect#examples).
 
-## Set Up for Deskstops and Nvidia's GPU
+## Set Up for Desktop CPU and Nvidia's GPU
 
 In order to use **Live Detect**, you need to have a DeepDetect instance running and then you need to build LiveDetect. 
 
@@ -28,17 +35,17 @@ Install the dependencies for LiveDetect:
 
 - `sudo apt-get install libjpeg-dev`
 
-First, create a `models` directory in your $HOME for the examples below to run without change. Then move to this new directory.
+- create a `models` directory in your $HOME for the examples below to run without change.
 
-- **For Jetson ARM boards**
+- if you have a **Jetson ARM boards**
 
-For Nvidia's Jetsons, you cannot use Docker and you should **build from source** as explained in the [quick start page](https://www.deepdetect.com/quickstart-server/?opts={%22os%22:%22ubuntu%22,%22source%22:%22build_source%22,%22compute%22:%22gpu%22,%22gpu%22:%22tx1%22,%22backend%22:[%22caffe%22],%22deepdetect%22:%22server%22}), using NCNN as a backend.
+For Nvidia's Jetsons, you cannot use Docker and you should **build from source** as explained in the [quick start page](https://www.deepdetect.com/quickstart-server/?opts={%22os%22:%22ubuntu%22,%22source%22:%22build_source%22,%22compute%22:%22gpu%22,%22gpu%22:%22tx1%22,%22backend%22:[%22caffe%22],%22deepdetect%22:%22server%22}), using Caffe as a backend.
 
 Once you are done with the quick start, you can directly [build LiveDetect from source](https://github.com/jolibrain/livedetect#buildfromsource).
 
-- **Install Docker** (not for Jetson ARM boards)
+- otherwise (no Jetson ARM board), **Install Docker**
 
-We are going to need Docker, as it works very well with very little overhead. If [you already have Docker installed](https://www.digitalocean.com/community/questions/how-to-check-for-docker-installation), you can directly **start a DeepDetect container**.
+We are going to need Docker, as it works very well with very little overhead. If [you already have Docker installed](https://www.digitalocean.com/community/questions/how-to-check-for-docker-installation), you can jump to the next bullet point.
 
 To install Docker:
 
@@ -50,17 +57,17 @@ sudo usermod -aG docker $USER
 
 - **Start a DeepDetect container**
 
-**If you are on your desktop**, you should make a CPU-only build, using Caffe:
+**If you are on your CPU-only desktop**, you must run a CPU-only DeepDetect docker image:
 
 - `docker run -d -p 8080:8080 -v $HOME/models:/opt/models jolibrain/deepdetect_cpu`
 
-**If you are using a Nvidia's GPU** (not for Jetson ARM boards), you need to install [nvidia-docker](https://github.com/NVIDIA/nvidia-docker). Once it's installed, you can make a GPU build:
+**If you are using a Nvidia's GPU** (not for Jetson ARM boards), you need to install [nvidia-docker](https://github.com/NVIDIA/nvidia-docker). Once it's installed, you must run a GPU-enabled DeepDetect docker image:
 
-- `docker run -d -p 8080:8080 -v $HOME/models:/opt/models jolibrain/deepdetect_gpu`
+- `nvidia-docker run -d -p 8080:8080 -v $HOME/models:/opt/models jolibrain/deepdetect_gpu`
 
-### Build from source
+### Using LiveDetect
 
-You must go to the [releases page](https://github.com/jolibrain/livedetect/releases):
+First check the [releases page](https://github.com/jolibrain/livedetect/releases):
 
 - If the binary for your system is available:
 
@@ -80,17 +87,11 @@ To install Go, download the approriate version for your OS [here](https://golang
 
 When the download is complete, go to the directory the file has been downloaded to and extract it to install the go toolchain:
 
-`tar -C $HOME -xzf go$VERSION.$OS-$ARCH.tar.gz`
+- `tar -C $/usr/local -xzf go$VERSION.$OS-$ARCH.tar.gz`
 
-A `go` directory will automatically be added to your `$HOME`. 
+- Then make a local `go` directory in your `$HOME` with `mkdir $HOME/go`
 
-Finally, you should set the GoPATH. Add `$HOME/go/bin` to the PATH environment variable. You can do this by adding this line to your `/etc/profile` (for a system-wide installation) or `$HOME/.profile`:
-
-`export PATH=$PATH:$HOME/go/bin`
-
-**Note**: changes made to a profile file may not apply until the next time you log into your computer. To apply the changes immediately, just refresh the file with `source $HOME/.profile`.
-
-For more, refer to [this page](https://github.com/golang/go/wiki/SettingGOPATH).
+- Set the goPATH with `export GOPATH=$HOME/go` and set path to the go binary with `export PATH=$PATH:$HOME/go/bin`. For more, refer to [this page](https://github.com/golang/go/wiki/SettingGOPATH).
 
 #### LiveDetect build
 
@@ -98,11 +99,9 @@ Now that you have the required packages, go to your `$HOME` and fetch LiveDetect
 
 `go get -u github.com/jolibrain/livedetect`
 
-This command should create a `gopath` directory 
-
 Move in this directory, into to the LiveDetect file:
 
-`cd ~/gopath/src/github.com/jolibrain/livedetect/`
+`cd ~/go/src/github.com/jolibrain/livedetect/`
 
 From this directory, fetch all dependencies remaining:
 
