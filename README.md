@@ -25,7 +25,7 @@ If you are using a **Raspberry Pi**, we made a step-by-step specific tutorial fo
 
 ## Set Up for Desktop CPU and Nvidia's GPU
 
-In order to use **Live Detect**, you need to have a DeepDetect instance running and then you need to build LiveDetect. 
+In order to use **LiveDetect**, you need to have a DeepDetect instance running and then you need to build LiveDetect. 
 
 ### DeepDetect instance 
 
@@ -43,7 +43,7 @@ For Nvidia's Jetsons, you cannot use Docker and you should **build from source**
 
 Once you are done with the quick start, you can directly [build LiveDetect from source](https://github.com/jolibrain/livedetect#buildfromsource).
 
-- otherwise (no Jetson ARM board), **Install Docker**
+- otherwise (no Jetson ARM board), **install Docker**
 
 We are going to need Docker, as it works very well with very little overhead. If [you already have Docker installed](https://www.digitalocean.com/community/questions/how-to-check-for-docker-installation), you can jump to the next bullet point.
 
@@ -61,7 +61,7 @@ sudo usermod -aG docker $USER
 
 - `docker run -d -p 8080:8080 -v $HOME/models:/opt/models jolibrain/deepdetect_cpu`
 
-**If you are using a Nvidia's GPU** (not for Jetson ARM boards), you need to install [nvidia-docker](https://github.com/NVIDIA/nvidia-docker). Once it's installed, you must run a GPU-enabled DeepDetect docker image:
+**If you are using an Nvidia GPU** (not for Jetson ARM boards), you need to install [nvidia-docker](https://github.com/NVIDIA/nvidia-docker). Once it's installed, you must run a GPU-enabled DeepDetect docker image:
 
 - `nvidia-docker run -d -p 8080:8080 -v $HOME/models:/opt/models jolibrain/deepdetect_gpu`
 
@@ -117,11 +117,11 @@ You're ready for the following examples!
 
 ### Face detection + bounding boxes on web preview
 
-This example starts LiveDetect and tells the DeepDetect instance located at 127.0.0.1:8080 to create a service named `face`.
+This example starts LiveDetect and tells the DeepDetect instance listening from localhost:8080 to create a service named `face`.
 
-This service takes 300x300 pictures for a detection process with the model located at the adress specified by `--init`, that have 2 classes.
+This service takes 300x300 frames and detect faces using the model fetched from the remote location specified by `--init`.
 
-The preview is displayed on port 8888, specified with `-P`.
+The preview is displayed on port 8888, that can be modified with flag `-P`.
 
 V4L uses `--device-id` as the capture device (here device 0) and verbosity at the INFO level is triggered by `-v INFO`.
 
@@ -154,7 +154,7 @@ V4L uses `--device-id` as the capture device (here device 0) and verbosity at th
     --width 300 --height 300 \
     --detection \
     --create --repository /opt/models/face/ \
-    --init "https://www.deepdetect.com/models/init/desktop/images/detection/faces_512.tar.gz" \
+    --init "https://www.deepdetect.com/models/init/ncnn/squeezenet_ssd_faces_ncnn_300x300.tar.gz" \
     --confidence 0.3 \
     --device-id 0 \
     -v INFO \
@@ -164,7 +164,7 @@ V4L uses `--device-id` as the capture device (here device 0) and verbosity at th
 ```
 
 
-#### For Nvidia's GPU
+#### For Nvidia GPU
 
 ```
 ./livedetect \
@@ -174,7 +174,7 @@ V4L uses `--device-id` as the capture device (here device 0) and verbosity at th
     --width 300 --height 300 \
     --detection \
     --create --repository /opt/models/face/ \
-    --init "https://www.deepdetect.com/models/init/ncnn/squeezenet_ssd_faces_ncnn_300x300.tar.gz" \
+    --init "https://www.deepdetect.com/models/init/desktop/images/detection/faces_512.tar.gz" \
     --confidence 0.3 \
     --device-id 0 \
     -v INFO \
@@ -187,7 +187,9 @@ V4L uses `--device-id` as the capture device (here device 0) and verbosity at th
 
 ### Detection + mask
 
-This command starts LiveDetect and tells the DeepDetect instance located at localhost:4242 to create a service named `mask` for detection and mask preview.
+This command starts LiveDetect and tells the DeepDetect instance located at `localhost:8080` to create a service named `mask` for detection and mask preview.
+
+This is for GPU machines only and uses Caffe2 [Detectron](https://github.com/facebookresearch/Detectron).
 
 It uses files under the `--repository` path with extensions files under the path specified by `-e`.
 
@@ -197,22 +199,24 @@ Finally, using `--select-classes`, we specify classes we want to be previewed an
 
 ```
 ./livedetect \
-    --port 4242 --host localhost \
+    --port 8080 --host localhost \
     --width 416 --height 608 \
     --detection \
     --create --repository /home/user/test_mask \
+    --init "https://www.deepdetect.com/models/init/desktop/images/detection/detectron_mask.tar.gz" \
     --mask -e /home/user/test_mask/mask \
     -m "102.9801" -m "115.9465" -m "122.7717" \
     --confidence 0.1 --nclasses 81 \
-    --service mask --device-id 1 \
+    --service mask \
     -P "0.0.0.0:8888" \
     --select-classes -c car -c person -c truck -c bike -c van
 ```
-// caffe 2 dectron 
 
 ## Detection + InfluxDB
 
-LiveDetect support InfluxDB, the categories detected and the probability for each category can be pushed to an InfluxDB database, here is the previous example, with the InfluxDB parameters.
+LiveDetect supports InfluxDB for storing and then displaying the results live with Grafana for instance. 
+
+The categories detected and the probability for each category can be pushed to an InfluxDB database, here is the previous example, with the InfluxDB parameters.
 
 To use InfluxDB, you first need to pass the `--influx` argument, then you can specify the host with `--influx-host`, the credentials that should be used with `--influx-user` and `--influx-pass`, and finally the database name with `--influx-db`.
 
