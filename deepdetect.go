@@ -28,7 +28,8 @@ package main
 
 import (
 	"image"
-	"time"
+  "time"
+  "strings"
 )
 
 func deepdetectProcess(imagePath string, ID string, img image.Image, startTime time.Time, imageBase64 string) {
@@ -53,4 +54,10 @@ func deepdetectProcess(imagePath string, ID string, img image.Image, startTime t
 	if responsePredict.Status.Code == 200 {
 		printResponse(responsePredict, ID, img, imagePath, startTime)
 	}
+
+  if arguments.Keep == true {
+    var logPath string
+    logPath = strings.TrimSuffix(imagePath, ".jpg") + ".json"
+    go keepJson(logPath, responsePredict)
+  }
 }

@@ -51,7 +51,7 @@ func createService(URL string) {
 
 	if service.Model.Init != "" {
 	   service.Model.CreateRepository = true
-	}	
+	}
 
 	// Mask support
 	if arguments.Mask == true {
