@@ -27,12 +27,17 @@
 package main
 
 import (
+  "bufio"
 	"image"
 	"os"
 	"strconv"
 	"strings"
 	"time"
 
+  "encoding/json"
+  "io/ioutil"
+
+	"github.com/jolibrain/godd"
 	jpeg "github.com/pixiv/go-libjpeg/jpeg"
 )
 
@@ -41,8 +46,18 @@ func keep(filePath string, img *image.RGBA) {
 	if err != nil {
 		panic(err.Error())
 	}
-	defer f.Close()
-	jpeg.Encode(f, img, &jpeg.EncoderOptions{})
+  w := bufio.NewWriter(f)
+  if err := jpeg.Encode(w, img, &jpeg.EncoderOptions{}); err != nil {
+    logError("Jpeg encode returns error: " + err.Error(), "[ERROR]")
+    return
+  }
+  w.Flush()
+  f.Close()
+}
+
+func keepJson(filePath string, result godd.PredictResult) {
+  file, _ := json.Marshal(result)
+  _ = ioutil.WriteFile(filePath, file, 0644)
 }
 
 func floatToString(inputNum float64) string {

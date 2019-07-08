@@ -75,6 +75,9 @@ var arguments = struct {
 	Mllib              string
 	Connector          string
 	Init               string
+  MlLibDataType           string
+  MlLibMaxBatchSize       int
+	MlLibMaxWorkspaceSize   int
 	// Mask
 	Mask       bool
 	Contour    bool
@@ -274,6 +277,21 @@ func argumentsParsing(args []string) {
 		Help:     "If the GPU should be used or not",
 		Default:  false})
 
+	MlLibDataType := parser.String("", "mllib-datatype", &argparse.Options{
+		Required: false,
+		Help:     "Mllib data type during service creation (fp32, fp16)",
+		Default:  ""})
+
+	MlLibMaxBatchSize := parser.Int("", "mllib-max-batch-size", &argparse.Options{
+		Required: false,
+		Help:     "Mllib max batch size",
+		Default:  -1})
+
+	MlLibMaxWorkspaceSize := parser.Int("", "mllib-max-workspace-size", &argparse.Options{
+		Required: false,
+		Help:     "Mllib max workspace size, in Mo",
+		Default:  -1})
+
 	// Classes
 	selectClasses := parser.Flag("", "select-classes", &argparse.Options{
 		Required: false,
@@ -349,6 +367,9 @@ func argumentsParsing(args []string) {
 	arguments.Mllib = *mllib
 	arguments.Connector = *connector
 	arguments.GPU = *GPU
+	arguments.MlLibDataType = *MlLibDataType
+	arguments.MlLibMaxBatchSize = *MlLibMaxBatchSize
+	arguments.MlLibMaxWorkspaceSize = *MlLibMaxWorkspaceSize
 	arguments.Video = videoPath
 	arguments.SelectClasses = *selectClasses
 	arguments.Classes = classes

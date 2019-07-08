@@ -49,9 +49,21 @@ func createService(URL string) {
 	service.Parameters.Mllib.Nclasses = arguments.Nclasses
 	service.Parameters.Mllib.GPU = arguments.GPU
 
+  if len(arguments.MlLibDataType) > 0 {
+    service.Parameters.Mllib.Datatype = arguments.MlLibDataType
+  }
+
+  if arguments.MlLibMaxBatchSize != -1 {
+    service.Parameters.Mllib.MaxBatchSize = arguments.MlLibMaxBatchSize
+  }
+
+  if arguments.MlLibMaxWorkspaceSize  != -1 {
+    service.Parameters.Mllib.MaxWorkspaceSize = arguments.MlLibMaxWorkspaceSize
+  }
+
 	if service.Model.Init != "" {
 	   service.Model.CreateRepository = true
-	}	
+	}
 
 	// Mask support
 	if arguments.Mask == true {
