@@ -140,7 +140,7 @@ func process(cam *v4l.Device) {
 		
 		// Show log message about waiting period
 		if arguments.Waiting > 0 {
-			logSuccess("Waiting " + arguments.Waiting " seconds before next request", "[INFO]")
+			logSuccess("Waiting " + strconv.Itoa(arguments.Waiting) + " seconds before next request", "[INFO]")
 		}
 
 		// Pretty horizontal bar displaying
@@ -152,7 +152,7 @@ func process(cam *v4l.Device) {
 		
 		// Wait `arguments.Waiting` seconds before next request
 		if arguments.Waiting > 0 {
-			time.Sleep(arguments.Waiting * time.Second)
+			time.Sleep(time.Duration(arguments.Waiting) * time.Second)
 		}
 	}
 }
