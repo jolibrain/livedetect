@@ -137,12 +137,22 @@ func process(cam *v4l.Device) {
 		if err != nil {
 			logError("Unable to get terminal dimensions!", "[ERROR]")
 		}
+		
+		// Show log message about waiting period
+		if arguments.Waiting > 0 {
+			logSuccess("Waiting " + arguments.Waiting " seconds before next request", "[INFO]")
+		}
 
 		// Pretty horizontal bar displaying
 		if arguments.Verbose == "INFO" || arguments.Verbose == "DEBUG" {
 			for j := 0; j < width; j++ {
 				fmt.Print(color.Green("="))
 			}
+		}
+		
+		// Wait `arguments.Waiting` seconds before next request
+		if arguments.Waiting > 0 {
+			time.Sleep(arguments.Waiting * time.Second)
 		}
 	}
 }
