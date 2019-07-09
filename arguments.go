@@ -65,6 +65,7 @@ var arguments = struct {
 	Detection  bool
 	Confidence float64
 	SSL        bool
+	Waiting	   int
 	// Creation flags
 	Create             bool
 	GPU                bool
@@ -75,8 +76,8 @@ var arguments = struct {
 	Mllib              string
 	Connector          string
 	Init               string
-  MlLibDataType           string
-  MlLibMaxBatchSize       int
+	MlLibDataType           string
+	MlLibMaxBatchSize       int
 	MlLibMaxWorkspaceSize   int
 	// Mask
 	Mask       bool
@@ -90,7 +91,8 @@ var arguments = struct {
 	Confidence: 0.10,
 	FPS:        30.00,
 	DeviceID:   0,
-	Best:       3}
+	Best:       3,
+	Waiting:    0}
 
 func argumentsParsing(args []string) {
 	// Create new parser object
@@ -235,6 +237,11 @@ func argumentsParsing(args []string) {
 		Required: false,
 		Help:     "Use HTTPS instead of HTTP",
 		Default:  false})
+	
+	waiting := parser.Int("", "waiting", &argparse.Options{
+		Required: false,
+		Help:     "Waiting X seconds between predict requests",
+		Default:  0})
 
 	// Services creation flags
 	create := parser.Flag("", "create", &argparse.Options{
@@ -359,6 +366,7 @@ func argumentsParsing(args []string) {
 	arguments.Verbose = *verbose
 	arguments.DeviceID = *deviceID
 	arguments.SSL = *SSL
+	arguments.Waiting = *waiting
 	arguments.Create = *create
 	arguments.Nclasses = *nclasses
 	arguments.Template = *template
