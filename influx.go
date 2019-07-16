@@ -123,14 +123,14 @@ func initDB() {
 		color.Yellow(" instance."), "[INFO]")
 
 	// Initialize database if it doesn't already exist
-	_, err = queryDB(arguments.InfluxDB, client, fmt.Sprintf("CREATE DATABASE %s", arguments.InfluxDB))
-	if err != nil {
-		logError("Error while creating the database "+
-			arguments.InfluxDB+": "+err.Error(), "[ERROR]")
-		os.Exit(1)
-	}
-	logSuccess("Database "+color.Cyan(arguments.InfluxDB)+
-		color.Yellow(" ready."), "[INFO]")
+	// _, err = queryDB(arguments.InfluxDB, client, fmt.Sprintf("CREATE DATABASE %s", arguments.InfluxDB))
+	// if err != nil {
+	//	logError("Error while creating the database "+
+	//		arguments.InfluxDB+": "+err.Error(), "[ERROR]")
+	//	os.Exit(1)
+	// }
+	// logSuccess("Database "+color.Cyan(arguments.InfluxDB)+
+	//	color.Yellow(" ready."), "[INFO]")
 
 	// Pretty horizontal bar displaying
 	for j := 0; j < width; j++ {
