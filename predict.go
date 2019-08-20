@@ -30,6 +30,20 @@ import (
 	"github.com/jolibrain/godd"
 )
 
+func predictWithRequest(predict godd.PredictRequest, URL string, image string, ID string) godd.PredictResult {
+	predict.Data = append(predict.Data, image)
+
+	predictResult, err := godd.Predict(URL, &predict)
+	if err != nil {
+		logError("Can't execute request!",
+			"["+ID+"] [ERROR]")
+		logError("Reason: "+err.Error(),
+			"["+ID+"] [ERROR]")
+	}
+
+	return predictResult
+}
+
 func predict(URL string, image string, ID string) godd.PredictResult {
 	// Create predict structure
 	var predict godd.PredictRequest

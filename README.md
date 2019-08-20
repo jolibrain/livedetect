@@ -252,3 +252,46 @@ To use InfluxDB, you first need to pass the `--influx` argument, then you can sp
   --detection
 ```
 
+- **Predict request on multiple services at once**: a json config file can be use to run multiple predict request on different services for each captured image. Here is an example, named `serviceConfig.json`:
+
+```
+[
+  {
+    "service": "detection_600",
+    "parameters": {
+      "input": {},
+      "output": {
+        "confidence_threshold": 0.5,
+        "bbox": true
+      },
+      "mllib": {
+        "gpu": true
+      }
+    }
+  },
+  {
+    "service": "detectron_3k",
+    "parameters": {
+      "input": {},
+      "output": {
+        "confidence_threshold": 0.5,
+        "bbox": true
+      },
+      "mllib": {
+        "gpu": true
+      }
+    }
+  }
+]
+```
+
+Then use `livedetect` command with `--service-config` argument:
+
+```
+./livedetect \
+  --host localhost \
+  --port 8080 \
+  --detection \
+  --service-config ./serviceConfig.json \
+  -v INFO
+```

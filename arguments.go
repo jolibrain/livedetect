@@ -31,9 +31,13 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
+	"io/ioutil"
+  "encoding/json"
 
 	"github.com/akamensky/argparse"
+	"github.com/jolibrain/godd"
 )
+
 
 var arguments = struct {
 	// InfluxDB flags
@@ -63,6 +67,7 @@ var arguments = struct {
 	Height     int
 	Best       int
 	Service    string
+	ServiceConfig []godd.PredictRequest
 	Detection  bool
 	Confidence float64
 	SSL        bool
@@ -117,7 +122,7 @@ func argumentsParsing(args []string) {
 
 	path := parser.String("", "path", &argparse.Options{
 		Required: false,
-    Help:     "Url Path of your DeepDetect instance (i.e: /api/deepdetect)",
+		Help:     "Url Path of your DeepDetect instance (i.e: /api/deepdetect)",
 		Default:  ""})
 
 	init := parser.String("", "init", &argparse.Options{
@@ -229,6 +234,11 @@ func argumentsParsing(args []string) {
 		Help:     "Name of the service that should be used for the prediction",
 		Default:  "imageserv"})
 
+	serviceConfigPath := parser.String("C", "service-config", &argparse.Options{
+		Required: false,
+		Help:     "Configuration file for service(s) predict request",
+		Default:  ""})
+
 	preview := parser.String("P", "preview", &argparse.Options{
 		Required: false,
 		Help:     "Serve live processed images stream on a specific adress",
@@ -243,7 +253,7 @@ func argumentsParsing(args []string) {
 		Required: false,
 		Help:     "Use HTTPS instead of HTTP",
 		Default:  false})
-	
+
 	waiting := parser.Int("", "waiting", &argparse.Options{
 		Required: false,
 		Help:     "Waiting X seconds between predict requests",
@@ -365,6 +375,29 @@ func argumentsParsing(args []string) {
 	arguments.Output = outputFolder
 	arguments.Keep = *keep
 	arguments.Service = *service
+
+  if *serviceConfigPath != "" {
+
+    // Open serviceConfigPath jsonFile
+    jsonFile, err := os.Open(*serviceConfigPath)
+
+    // if we os.Open returns an error then handle it
+    if err != nil {
+      logError("Can't open serviceConfig json",
+        "[ERROR]")
+      logError("Reason: "+err.Error(),
+        "[ERROR]")
+    }
+
+    // defer the closing of our jsonFile so that we can parse it later on
+    defer jsonFile.Close()
+
+    byteValue, _ := ioutil.ReadAll(jsonFile)
+
+    json.Unmarshal(byteValue, &arguments.ServiceConfig)
+
+  }
+
 	arguments.Best = *best
 	arguments.Picamera = *picamera
 	arguments.Preview = *preview
