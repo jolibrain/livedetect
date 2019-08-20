@@ -58,6 +58,7 @@ var arguments = struct {
 	// Predict flags
 	Host       string
 	Port       string
+	Path       string
 	Width      int
 	Height     int
 	Best       int
@@ -113,6 +114,11 @@ func argumentsParsing(args []string) {
 		Required: false,
 		Help:     "Port used by your DeepDetect instance",
 		Default:  "8080"})
+
+	path := parser.String("", "path", &argparse.Options{
+		Required: false,
+    Help:     "Url Path of your DeepDetect instance (i.e: /api/deepdetect)",
+		Default:  ""})
 
 	init := parser.String("", "init", &argparse.Options{
 		Required: false,
@@ -350,6 +356,7 @@ func argumentsParsing(args []string) {
 	// Finally save the collected flags
 	arguments.Host = *host
 	arguments.Port = *port
+	arguments.Path = *path
 	arguments.Init = *init
 	arguments.Width = *width
 	arguments.Height = *height

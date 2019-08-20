@@ -240,4 +240,15 @@ To use InfluxDB, you first need to pass the `--influx` argument, then you can sp
 
 - **Running DeepDetect on one machine and LiveDetect on another**: This is a common setup, typically running the DeepDetect container on a powerful GPU machine, and the LiveDetect binary somewhere near the camera, on a small board. Simply use the `--host` and `--port` parameters to fit your setup.
 
+- **Running DeepDetect behind a reverse proxy**: If you use [DeepDetect Platform](https://deepdetect.com/platform/), your DeepDetect server will be accessible behind an nginx reverse proxy. You can use `--path` parameter to access it:
+
+```
+./livedetect \
+  --host localhost \
+  --port 1912 \
+  --path /api/deepdetect \
+  --mllib caffe \
+  --width 300 --height 300 \
+  --detection
+```
 

@@ -47,6 +47,10 @@ func deepdetectProcess(imagePath string, ID string, img image.Image, startTime t
 		predictURL = "http://" + arguments.Host + ":" + arguments.Port
 	}
 
+  if arguments.Path != "" {
+    predictURL = predictURL + arguments.Path
+  }
+
 	// Execute predict
 	responsePredict := predict(predictURL, imageBase64, ID)
 
