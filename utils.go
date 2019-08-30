@@ -46,7 +46,7 @@ func keepImg(filePath string, img *image.RGBA) {
     logError("Error creating file: " + err.Error(), "[ERROR]")
 		panic(err.Error())
   }
-  jpeg.Encode(f, img, &jpeg.EncoderOptions{Quality: 50})
+  jpeg.Encode(f, img, &jpeg.EncoderOptions{Quality: 90})
   f.Close()
 }
 
