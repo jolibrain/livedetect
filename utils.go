@@ -27,7 +27,6 @@
 package main
 
 import (
-  "bufio"
 	"image"
 	"os"
 	"strconv"
@@ -41,17 +40,13 @@ import (
 	jpeg "github.com/pixiv/go-libjpeg/jpeg"
 )
 
-func keep(filePath string, img *image.RGBA) {
-	f, err := os.Create(filePath)
-	if err != nil {
+func keepImg(filePath string, img *image.RGBA) {
+  f, err := os.Create(filePath)
+  if err != nil {
+    logError("Error creating file: " + err.Error(), "[ERROR]")
 		panic(err.Error())
-	}
-  w := bufio.NewWriter(f)
-  if err := jpeg.Encode(w, img, &jpeg.EncoderOptions{}); err != nil {
-    logError("Jpeg encode returns error: " + err.Error(), "[ERROR]")
-    return
   }
-  w.Flush()
+  jpeg.Encode(f, img, &jpeg.EncoderOptions{Quality: 90})
   f.Close()
 }
 

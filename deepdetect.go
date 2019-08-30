@@ -29,7 +29,6 @@ package main
 import (
 	"image"
   "time"
-  "strings"
 
 	"github.com/jolibrain/godd"
 )
@@ -59,10 +58,10 @@ func deepdetectProcess(imagePath string, ID string, img image.Image, startTime t
   if arguments.ServiceConfig == nil {
 
     // Use only arguments.Service as predict service
-    responsePredict := predict(predictURL, imageBase64, ID)
+    response := predict(predictURL, imageBase64, ID)
 
     // Handle response
-    deepdetectResponseHandler(responsePredict, imagePath, ID, img, startTime, request)
+    printResponse(request, response, ID, img, imagePath, startTime)
 
   } else {
 
@@ -76,42 +75,11 @@ func deepdetectProcess(imagePath string, ID string, img image.Image, startTime t
           "["+ID+"] [INFO]")
       }
 
-      responsePredict := predictWithRequest(request, predictURL, imageBase64, ID)
+      response := predictWithRequest(request, predictURL, imageBase64, ID)
 
       // Handle response
-      deepdetectResponseHandler(responsePredict, imagePath, ID, img, startTime, request)
+      printResponse(request, response, ID, img, imagePath, startTime)
 
     }
   }
-}
-
-func deepdetectResponseHandler(responsePredict godd.PredictResult, imagePath string, ID string, img image.Image, startTime time.Time, request godd.PredictRequest) {
-
-    if arguments.Verbose == "INFO" || arguments.Verbose == "DEBUG" {
-      logSuccess("Handle predict response",
-        "["+ID+"] [INFO]")
-    }
-
-	// Print predict results
-	if responsePredict.Status.Code == 200 {
-		printResponse(responsePredict, ID, img, imagePath, startTime)
-	}
-
-  // Keep json object on disk
-  if arguments.Keep == true {
-
-    // Place json file next to processed image file
-    var logPath string
-    logPath = strings.TrimSuffix(imagePath, ".jpg") + ".json"
-
-    // Add Service name suffix if specified
-    if request.Service != "" {
-      logPath = strings.Replace(logPath, ".json", "_" + request.Service + ".json", -1)
-    }
-
-    // Write predict response inside json file
-    go keepJson(logPath, responsePredict)
-
-  }
-
 }

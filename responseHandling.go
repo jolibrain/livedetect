@@ -33,18 +33,25 @@ import (
 	"image/draw"
 	"strconv"
 	"time"
+	"strings"
 
 	"github.com/jolibrain/godd"
 	"github.com/labstack/gommon/color"
 	jpeg "github.com/pixiv/go-libjpeg/jpeg"
 )
 
-func printResponse(result godd.PredictResult, ID string, img image.Image, filePath string, startTime time.Time) {
-	// Initialize categories counter
-	categories := 0
+func printResponse(request godd.PredictRequest, result godd.PredictResult, ID string, img image.Image, filePath string, startTime time.Time) {
+
+	if result.Status.Code != 200 {
+    logError("Unexpected response status code: " + strconv.Itoa(result.Status.Code), "[ERROR]")
+    return
+  }
 
 	// Initialize RGBA image
 	var imgRGBA *image.RGBA
+
+	// Initialize categories counter
+	categories := 0
 
 	// Print complete classes array if --verbose is true
 	if arguments.Verbose == "DEBUG" {
@@ -139,11 +146,6 @@ func printResponse(result godd.PredictResult, ID string, img image.Image, filePa
 			color.Cyan(averageTime(elapsedTimes)))
 	}
 
-	// Save frame if --keep
-	if arguments.Keep == true {
-		go keep(filePath, imgRGBA)
-	}
-
 	// Preview window
 	if arguments.Preview != "" {
 		// Convert image to buffer
@@ -157,4 +159,23 @@ func printResponse(result godd.PredictResult, ID string, img image.Image, filePa
 			}
 		}
 	}
+
+  // Keep img and json on disk
+  if arguments.Keep == true {
+
+		go keepImg(filePath, imgRGBA)
+
+    // Place json file next to processed image file
+    var logPath string
+    logPath = strings.TrimSuffix(filePath, ".jpg") + ".json"
+
+    // Add Service name suffix if specified
+    if request.Service != "" {
+      logPath = strings.Replace(logPath, ".json", "_" + request.Service + ".json", -1)
+    }
+
+    // Write predict response inside json file
+    go keepJson(logPath, result)
+
+  }
 }
