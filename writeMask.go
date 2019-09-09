@@ -84,10 +84,16 @@ func writeSquare(red, green, blue uint8, x, y int, img draw.Image) {
 }
 
 func writeMask(img image.Image, result godd.PredictResult, class int, ID string) (imgRGBA *image.RGBA) {
+
 	// Convert to RGBA
 	b := img.Bounds()
 	imgRGBA = image.NewRGBA(image.Rect(0, 0, b.Dx(), b.Dy()))
 	draw.Draw(imgRGBA, imgRGBA.Bounds(), img, b.Min, draw.Src)
+
+  // do not modify image if flag --keep-raw is true
+  if arguments.KeepRaw == true {
+    return imgRGBA
+  }
 
 	if arguments.SelectClasses == true && sliceContains(*arguments.Classes, result.Body.Predictions[0].Classes[class].Cat) == false {
 	} else {
