@@ -67,7 +67,10 @@ var arguments = struct {
 	Height     int
 	Best       int
 	Service    string
-	ServiceConfig []godd.PredictRequest
+	ServiceConfig struct {
+    Create []godd.ServiceRequest
+    Predict []godd.PredictRequest
+  }
 	Detection  bool
 	Confidence float64
 	SSL        bool
@@ -349,7 +352,7 @@ func argumentsParsing(args []string) {
 
 	// Check if --creation is triggered, if related flags are
 	// also filled
-	if *create == true && *nclasses <= 0 {
+	if *create == true && *nclasses <= 0 && *serviceConfigPath == "" {
 		logError("You have to specify a number of classes for service creation!", "[ERROR]")
 		os.Exit(1)
 	}

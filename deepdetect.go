@@ -55,7 +55,7 @@ func deepdetectProcess(imagePath string, ID string, img image.Image, startTime t
   }
 
 	// Execute predict
-  if arguments.ServiceConfig == nil {
+  if arguments.ServiceConfig.Predict == nil {
 
     // Use only arguments.Service as predict service
     response := predict(predictURL, imageBase64, ID)
@@ -66,9 +66,9 @@ func deepdetectProcess(imagePath string, ID string, img image.Image, startTime t
   } else {
 
     // Iterate through arguments.ServiceConfig predict services
-    for i := 0; i < len(arguments.ServiceConfig); i++ {
+    for i := 0; i < len(arguments.ServiceConfig.Predict); i++ {
 
-      request = arguments.ServiceConfig[i]
+      request = arguments.ServiceConfig.Predict[i]
 
       if arguments.Verbose == "INFO" || arguments.Verbose == "DEBUG" {
         logSuccess("Request on service " + request.Service,
