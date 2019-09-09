@@ -54,6 +54,7 @@ var arguments = struct {
 	// Livedetect flags
 	Output        string
 	Keep          bool
+	KeepRaw       bool
 	Preview       string
 	Picamera      bool
 	Verbose       string
@@ -227,6 +228,11 @@ func argumentsParsing(args []string) {
 		Help:     "If pictures should be deleted after processing or not",
 		Default:  false})
 
+	keepRaw := parser.Flag("", "keep-raw", &argparse.Options{
+		Required: false,
+		Help:     "If bounding-boxes should be displayed on saved images",
+		Default:  false})
+
 	best := parser.Int("b", "best", &argparse.Options{
 		Required: false,
 		Help:     "Number of different classes DeepDetect should return",
@@ -377,6 +383,7 @@ func argumentsParsing(args []string) {
 	arguments.FPS = *FPS
 	arguments.Output = outputFolder
 	arguments.Keep = *keep
+	arguments.KeepRaw = *keepRaw
 	arguments.Service = *service
 
   if *serviceConfigPath != "" {
