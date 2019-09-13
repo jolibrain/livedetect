@@ -58,6 +58,13 @@ func process(cam *v4l.Device) {
 		// Start processing time
 		start := time.Now()
 
+		var imagePath string
+		if arguments.Keep == true {
+			imagePath = arguments.Output + "/" + start.Format("2006-01-02-15-04-05") + ".jpg"
+		} else {
+			imagePath = start.Format("2006-01-02-15-04-05")
+		}
+
 		// Read frame from camera
 		buf, err := cam.Capture()
 		if err != nil {
@@ -74,6 +81,11 @@ func process(cam *v4l.Device) {
 			logError("Error decoding jpeg image: "+err.Error(), "[ERROR]")
 			os.Exit(1)
 		}
+
+    // Keep img on disk
+    if arguments.Keep == true {
+      go keepImg(imagePath, img)
+    }
 
 		// Show warning if model size can't be used for capture
 		im, _, err := image.DecodeConfig(buf)
@@ -97,14 +109,6 @@ func process(cam *v4l.Device) {
 		}
 		imageBase64 := base64.StdEncoding.EncodeToString(buffer64.Bytes())
 
-		// Generate file name and path
-		currentTime := time.Now()
-		var imagePath string
-		if arguments.Keep == true {
-			imagePath = arguments.Output + "/" + currentTime.Format("2006-01-02-15-04-05") + ".jpg"
-		} else {
-			imagePath = currentTime.Format("2006-01-02-15-04-05")
-		}
 		/*if arguments.Verbose == "DEBUG" {
 			logSuccess(color.Cyan("Saving frame to ")+
 				color.Yellow(imagePath), "["+
@@ -137,7 +141,7 @@ func process(cam *v4l.Device) {
 		if err != nil {
 			logError("Unable to get terminal dimensions!", "[ERROR]")
 		}
-		
+
 		// Show log message about waiting period
 		if arguments.Waiting > 0 {
 			logSuccess("Waiting " + strconv.Itoa(arguments.Waiting) + " seconds before next request", "[INFO]")
@@ -149,7 +153,7 @@ func process(cam *v4l.Device) {
 				fmt.Print(color.Green("="))
 			}
 		}
-		
+
 		// Wait `arguments.Waiting` seconds before next request
 		if arguments.Waiting > 0 {
 			time.Sleep(time.Duration(arguments.Waiting) * time.Second)
