@@ -27,11 +27,12 @@
 package main
 
 import (
-	"image"
 	"os"
 	"strconv"
 	"strings"
 	"time"
+	"bufio"
+	"image"
 
   "encoding/json"
   "io/ioutil"
@@ -40,14 +41,24 @@ import (
 	jpeg "github.com/pixiv/go-libjpeg/jpeg"
 )
 
-func keepImg(filePath string, img *image.RGBA) {
+func keepImg(filePath string, img image.Image) {
+
   f, err := os.Create(filePath)
   if err != nil {
     logError("Error creating file: " + err.Error(), "[ERROR]")
 		panic(err.Error())
   }
-  jpeg.Encode(f, img, &jpeg.EncoderOptions{Quality: 90})
-  f.Close()
+
+  b := bufio.NewWriter(f)
+  defer func() {
+    b.Flush()
+    f.Close()
+  }()
+
+  if err := jpeg.Encode(b, img, &jpeg.EncoderOptions{Quality: 100}); err != nil {
+    panic(err)
+  }
+  return
 }
 
 func keepJson(filePath string, result godd.PredictResult) {

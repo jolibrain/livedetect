@@ -160,10 +160,8 @@ func printResponse(request godd.PredictRequest, result godd.PredictResult, ID st
 		}
 	}
 
-  // Keep img and json on disk
+  // Keep json on disk
   if arguments.Keep == true {
-
-		go keepImg(filePath, imgRGBA)
 
     // Place json file next to processed image file
     var logPath string

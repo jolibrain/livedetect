@@ -42,11 +42,6 @@ func writeBoundingBox(img image.Image, result godd.PredictResult, class int, ID 
 	imgRGBA = image.NewRGBA(image.Rect(0, 0, b.Dx(), b.Dy()))
 	draw.Draw(imgRGBA, imgRGBA.Bounds(), img, b.Min, draw.Src)
 
-  // do not modify image if flag --keep-raw is true
-  if arguments.KeepRaw == true {
-    return imgRGBA
-  }
-
 	// Set colors for bbox
 	red := color.RGBA{255, 0, 0, 255}
 	white := color.RGBA{255, 255, 255, 255}
