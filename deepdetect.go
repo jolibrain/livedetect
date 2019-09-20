@@ -27,10 +27,12 @@
 package main
 
 import (
+	"bytes"
 	"image"
   "time"
 
 	"github.com/jolibrain/godd"
+	jpeg "github.com/pixiv/go-libjpeg/jpeg"
 )
 
 func deepdetectProcess(imagePath string, ID string, img image.Image, startTime time.Time, imageBase64 string) {
@@ -61,7 +63,7 @@ func deepdetectProcess(imagePath string, ID string, img image.Image, startTime t
     response := predict(predictURL, imageBase64, ID)
 
     // Handle response
-    printResponse(request, response, ID, img, imagePath, startTime)
+    printResponse(request, response, ID, img, imagePath, startTime, 0)
 
   } else {
 
@@ -78,8 +80,25 @@ func deepdetectProcess(imagePath string, ID string, img image.Image, startTime t
       response := predictWithRequest(request, predictURL, imageBase64, ID)
 
       // Handle response
-      printResponse(request, response, ID, img, imagePath, startTime)
+      img = printResponse(request, response, ID, img, imagePath, startTime, i)
 
     }
+
+    // Preview window
+    if arguments.Preview != "" {
+      // Convert image to buffer
+      buf := new(bytes.Buffer)
+      if img != nil {
+        err := jpeg.Encode(buf, img, &jpeg.EncoderOptions{Quality: 50})
+        if err == nil {
+          go stream.Update(buf.Bytes())
+        } else {
+          logError("Can't encode frame to live stream.", "[ERROR]")
+        }
+      }
+    }
+
+
   }
+
 }

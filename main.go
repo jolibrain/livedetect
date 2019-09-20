@@ -39,7 +39,7 @@ import (
 	"github.com/korandiz/v4l"
 	"github.com/korandiz/v4l/fmt/mjpeg"
 	"github.com/labstack/gommon/color"
-	live "github.com/saljam/mjpeg"
+	live "github.com/mattn/go-mjpeg"
 	"golang.org/x/crypto/ssh/terminal"
 )
 
