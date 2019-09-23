@@ -43,25 +43,18 @@ func writeBoundingBox(img image.Image, result godd.PredictResult, class int, ID 
 	draw.Draw(imgRGBA, imgRGBA.Bounds(), img, b.Min, draw.Src)
 
   // Set colors for bbox
-  boxColor := color.RGBA{228,26,28,255}
-  switch index {
-  case 1:
-    boxColor = color.RGBA{55,126,184,255}
-  case 2:
-    boxColor = color.RGBA{77,175,74,255}
-  case 3:
-    boxColor = color.RGBA{152,78,163,255}
-  case 4:
-    boxColor = color.RGBA{255,127,0,255}
-  case 5:
-    boxColor = color.RGBA{255,255,51,255}
-  case 6:
-    boxColor = color.RGBA{166,86,40,255}
-  case 7:
-    boxColor = color.RGBA{247,129,191,255}
-  case 8:
-    boxColor = color.RGBA{153,153,153,255}
+  boxColors := []color.RGBA{
+    {228,26,28,255},
+    {55,126,184,255},
+    {77,175,74,255},
+    {152,78,163,255},
+    {255,127,0,255},
+    {255,255,51,255},
+    {166,86,40,255},
+    {247,129,191,255},
+    {153,153,153,255},
   }
+  boxColor := boxColors[index % len(boxColors)]
 
   // Set color for label
 	white := color.RGBA{255, 255, 255, 255}
