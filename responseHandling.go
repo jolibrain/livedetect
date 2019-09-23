@@ -27,7 +27,6 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
 	"image"
 	"image/draw"
@@ -37,7 +36,6 @@ import (
 
 	"github.com/jolibrain/godd"
 	"github.com/labstack/gommon/color"
-	jpeg "github.com/pixiv/go-libjpeg/jpeg"
 )
 
 func printResponse(request godd.PredictRequest, result godd.PredictResult, ID string, img image.Image, filePath string, startTime time.Time, index int) image.Image {
@@ -143,20 +141,6 @@ func printResponse(request godd.PredictRequest, result godd.PredictResult, ID st
 			color.Green(" | ")+
 			color.Yellow("Average processing time: ")+
 			color.Cyan(averageTime(elapsedTimes)))
-	}
-
-	// Preview window
-	if arguments.Preview != "" {
-		// Convert image to buffer
-		buf := new(bytes.Buffer)
-		if imgRGBA != nil {
-			err := jpeg.Encode(buf, imgRGBA, &jpeg.EncoderOptions{Quality: 50})
-			if err == nil {
-				go stream.Update(buf.Bytes())
-			} else {
-				logError("Can't encode frame to live stream.", "[ERROR]")
-			}
-		}
 	}
 
   // Keep json on disk
