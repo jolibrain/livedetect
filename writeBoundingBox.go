@@ -35,15 +35,28 @@ import (
 	"github.com/jolibrain/godd"
 )
 
-func writeBoundingBox(img image.Image, result godd.PredictResult, class int, ID string) (imgRGBA *image.RGBA) {
+func writeBoundingBox(img image.Image, result godd.PredictResult, class int, ID string, index int) (imgRGBA *image.RGBA) {
 
 	// Convert to RGBA
 	b := img.Bounds()
 	imgRGBA = image.NewRGBA(image.Rect(0, 0, b.Dx(), b.Dy()))
 	draw.Draw(imgRGBA, imgRGBA.Bounds(), img, b.Min, draw.Src)
 
-	// Set colors for bbox
-	red := color.RGBA{255, 0, 0, 255}
+  // Set colors for bbox
+  boxColors := []color.RGBA{
+    {228,26,28,255},
+    {55,126,184,255},
+    {77,175,74,255},
+    {152,78,163,255},
+    {255,127,0,255},
+    {255,255,51,255},
+    {166,86,40,255},
+    {247,129,191,255},
+    {153,153,153,255},
+  }
+  boxColor := boxColors[index % len(boxColors)]
+
+  // Set color for label
 	white := color.RGBA{255, 255, 255, 255}
 
 	// Set coordinates for bbox
@@ -53,7 +66,7 @@ func writeBoundingBox(img image.Image, result godd.PredictResult, class int, ID 
 	y2 := int(result.Body.Predictions[0].Classes[class].Bbox.Ymax)
 
 	// Draw the bounding box
-	gobbox.DrawBoundingBox(imgRGBA, result.Body.Predictions[0].Classes[class].Cat, x1, x2, y2, y1, red, white)
+	gobbox.DrawBoundingBox(imgRGBA, result.Body.Predictions[0].Classes[class].Cat, x1, x2, y2, y1, boxColor, white)
 
 	return imgRGBA
 }

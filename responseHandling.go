@@ -40,11 +40,11 @@ import (
 	jpeg "github.com/pixiv/go-libjpeg/jpeg"
 )
 
-func printResponse(request godd.PredictRequest, result godd.PredictResult, ID string, img image.Image, filePath string, startTime time.Time) {
+func printResponse(request godd.PredictRequest, result godd.PredictResult, ID string, img image.Image, filePath string, startTime time.Time, index int) image.Image {
 
 	if result.Status.Code != 200 {
     logError("Unexpected response status code: " + strconv.Itoa(result.Status.Code), "[ERROR]")
-    return
+    return img
   }
 
 	// Initialize RGBA image
@@ -62,10 +62,11 @@ func printResponse(request godd.PredictRequest, result godd.PredictResult, ID st
 	// Iterate through classes and print cat, probs and bbox if
 	// --detection is used
 	if len(result.Body.Predictions) != 0 {
-		// Convert to RGBA
-		b := img.Bounds()
-		imgRGBA = image.NewRGBA(image.Rect(0, 0, b.Dx(), b.Dy()))
-		draw.Draw(imgRGBA, imgRGBA.Bounds(), img, b.Min, draw.Src)
+
+    // Convert to RGBA
+    b := img.Bounds()
+    imgRGBA = image.NewRGBA(image.Rect(0, 0, b.Dx(), b.Dy()))
+    draw.Draw(imgRGBA, imgRGBA.Bounds(), img, b.Min, draw.Src)
 
 		// Loop over predictions
 		for _, class := range result.Body.Predictions[0].Classes {
@@ -105,12 +106,10 @@ func printResponse(request godd.PredictRequest, result godd.PredictResult, ID st
 						}
 						if arguments.Preview != "" || arguments.Keep == true {
 							imgRGBA = writeMask(img, result, categories, ID)
-							img = imgRGBA
 						}
 					} else {
 						if arguments.Preview != "" || arguments.Keep == true {
-							imgRGBA = writeBoundingBox(img, result, categories, ID)
-							img = imgRGBA
+							imgRGBA = writeBoundingBox(img, result, categories, ID, index)
 						}
 					}
 				}
@@ -153,7 +152,7 @@ func printResponse(request godd.PredictRequest, result godd.PredictResult, ID st
 		if imgRGBA != nil {
 			err := jpeg.Encode(buf, imgRGBA, &jpeg.EncoderOptions{Quality: 50})
 			if err == nil {
-				go stream.UpdateJPEG(buf.Bytes())
+				go stream.Update(buf.Bytes())
 			} else {
 				logError("Can't encode frame to live stream.", "[ERROR]")
 			}
@@ -176,4 +175,6 @@ func printResponse(request godd.PredictRequest, result godd.PredictResult, ID st
     go keepJson(logPath, result)
 
   }
+
+  return imgRGBA
 }
