@@ -59,7 +59,7 @@ func process(cam *v4l.Device) {
 		start := time.Now()
 
 		var imagePath string
-		if arguments.Keep == true {
+		if arguments.KeepImg == true {
 			imagePath = arguments.Output + "/" + start.Format("2006-01-02-15-04-05") + ".jpg"
 		} else {
 			imagePath = start.Format("2006-01-02-15-04-05")
@@ -83,7 +83,7 @@ func process(cam *v4l.Device) {
 		}
 
     // Keep img on disk
-    if arguments.Keep == true {
+    if arguments.KeepImg == true {
       go keepImg(imagePath, img)
     }
 

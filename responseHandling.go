@@ -104,11 +104,11 @@ func printResponse(request godd.PredictRequest, result godd.PredictResult, ID st
 								"["+ID+"] ------")
 							fmt.Print("\n")
 						}
-						if arguments.Preview != "" || arguments.Keep == true {
+						if arguments.Preview != "" || arguments.KeepImg == true {
 							imgRGBA = writeMask(img, result, categories, ID)
 						}
 					} else {
-						if arguments.Preview != "" || arguments.Keep == true {
+						if arguments.Preview != "" || arguments.KeepImg == true {
 							imgRGBA = writeBoundingBox(img, result, categories, ID, index)
 						}
 					}
@@ -160,7 +160,7 @@ func printResponse(request godd.PredictRequest, result godd.PredictResult, ID st
 	}
 
   // Keep json on disk
-  if arguments.Keep == true {
+  if arguments.KeepJson == true {
 
     // Place json file next to processed image file
     var logPath string

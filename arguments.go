@@ -53,7 +53,8 @@ var arguments = struct {
 	Mirror   bool
 	// Livedetect flags
 	Output        string
-	Keep          bool
+	KeepJson      bool
+	KeepImg       bool
 	Preview       string
 	Picamera      bool
 	Verbose       string
@@ -106,6 +107,14 @@ var arguments = struct {
 func argumentsParsing(args []string) {
 	// Create new parser object
 	parser := argparse.NewParser("LiveDetect", "Real-time image processing with DeepDetect")
+
+  // Running mode:
+  // - 'acquisition': equals to '--keep', it keeps predict results and images
+  // - 'exploitation': equals to '--keepJson', it only keeps predict results
+	mode := parser.String("", "mode", &argparse.Options{
+		Required: false,
+		Help:     "Running mode, exploitation (keeps predict results) or acquisition (keeps predict results and images)",
+		Default:  ""})
 
 	// Create flags
 	contour := parser.Flag("", "contour", &argparse.Options{
@@ -223,6 +232,16 @@ func argumentsParsing(args []string) {
 		Default:  false})
 
 	keep := parser.Flag("k", "keep", &argparse.Options{
+		Required: false,
+		Help:     "If predict results and pictures should be deleted after processing or not",
+		Default:  false})
+
+	keepJson := parser.Flag("", "keepJson", &argparse.Options{
+		Required: false,
+		Help:     "If predict results should be deleted after processing or not",
+		Default:  false})
+
+	keepImg := parser.Flag("", "keepImg", &argparse.Options{
 		Required: false,
 		Help:     "If pictures should be deleted after processing or not",
 		Default:  false})
@@ -375,9 +394,17 @@ func argumentsParsing(args []string) {
 	arguments.Height = *height
 	arguments.Mirror = *mirror
 	arguments.FPS = *FPS
-	arguments.Output = outputFolder
-	arguments.Keep = *keep
 	arguments.Service = *service
+
+	arguments.KeepJson = *keep || *keepJson || *mode == "acquisition" || *mode == "exploitation"
+	arguments.KeepImg = *keep || *keepImg || *mode == "acquisition"
+
+	arguments.Output = outputFolder
+  if((arguments.KeepJson || arguments.KeepImg) && arguments.Output == "") {
+      logError("Missing --output parameter, required when using --keep parameters",
+        "[ERROR]")
+      os.Exit(1)
+  }
 
   if *serviceConfigPath != "" {
 

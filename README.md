@@ -4,9 +4,9 @@ LiveDetect is a tool designed to easily process local video streams with Deep Le
 
 The code reads live imagery from a camera and processes every frame using [DeepDetect](https://github.com/jolibrain/deepdetect/).
 
-LiveDetect and DeepDetect run on Desktop, any CPU, Nvidia's GPU, and Raspberry Pi3 (and other ARM devices) alike. 
+LiveDetect and DeepDetect run on Desktop, any CPU, Nvidia's GPU, and Raspberry Pi3 (and other ARM devices) alike.
 
-Pre-trained Deep Learning [models](https://www.deepdetect.com/models/?opts={%22media%22:%22image%22,%22type%22:%22type-all%22,%22backend%22:[%22caffe%22,%22ncnn%22],%22platform%22:%22desktop%22,%22searchTerm%22:%22%22}#) are made available for [desktop](https://www.deepdetect.com/models/?opts={%22media%22:%22image%22,%22type%22:%22type-all%22,%22backend%22:[%22caffe%22,%22ncnn%22,%22caffe2%22,%22tensorflow%22],%22platform%22:%22desktop%22,%22searchTerm%22:%22%22}#) and [embedded systems like the Raspberry Pi](https://www.deepdetect.com/models/?opts={%22media%22:%22image%22,%22type%22:%22type-all%22,%22backend%22:[%22caffe%22,%22ncnn%22],%22platform%22:%22embedded%22,%22searchTerm%22:%22%22}#). 
+Pre-trained Deep Learning [models](https://www.deepdetect.com/models/?opts={%22media%22:%22image%22,%22type%22:%22type-all%22,%22backend%22:[%22caffe%22,%22ncnn%22],%22platform%22:%22desktop%22,%22searchTerm%22:%22%22}#) are made available for [desktop](https://www.deepdetect.com/models/?opts={%22media%22:%22image%22,%22type%22:%22type-all%22,%22backend%22:[%22caffe%22,%22ncnn%22,%22caffe2%22,%22tensorflow%22],%22platform%22:%22desktop%22,%22searchTerm%22:%22%22}#) and [embedded systems like the Raspberry Pi](https://www.deepdetect.com/models/?opts={%22media%22:%22image%22,%22type%22:%22type-all%22,%22backend%22:[%22caffe%22,%22ncnn%22],%22platform%22:%22embedded%22,%22searchTerm%22:%22%22}#).
 
 
 Real-world use cases from DeepDetect customers with LiveDetect:
@@ -25,9 +25,9 @@ If you are using a **Raspberry Pi**, we made a step-by-step specific tutorial fo
 
 ## Set Up for Desktop CPU and Nvidia's GPU
 
-In order to use **LiveDetect**, you need to have a DeepDetect instance running and then you need to build LiveDetect. 
+In order to use **LiveDetect**, you need to have a DeepDetect instance running and then you need to build LiveDetect.
 
-### DeepDetect instance 
+### DeepDetect instance
 
 You need a **DeepDetect** instance running and accessible from the machine where you want to use LiveDetect.
 
@@ -212,7 +212,7 @@ Finally, using `--select-classes`, we specify classes we want to be previewed an
 
 ## Detection + InfluxDB
 
-LiveDetect supports InfluxDB for storing and then displaying the results live with Grafana for instance. 
+LiveDetect supports InfluxDB for storing and then displaying the results live with Grafana for instance.
 
 The categories detected and the probability for each category can be pushed to an InfluxDB database, here is the previous example, with the InfluxDB parameters.
 
@@ -295,3 +295,10 @@ Then use `livedetect` command with `--service-config` argument:
   --service-config ./serviceConfig.json \
   -v INFO
 ```
+
+## Running mode configuration
+
+You can setup `livedetect` to run in various configuration:
+
+* `--mode exploitation` will run `livedetect` and save predict result json files in `--output $PATH` folder
+* `--mode acquisition` will run `livedetect` and save predict result json files and image files in `--output $PATH` folder
