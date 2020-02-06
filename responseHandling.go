@@ -105,11 +105,11 @@ func printResponse(request godd.PredictRequest, result godd.PredictResult, ID st
 							fmt.Print("\n")
 						}
 						if arguments.Preview != "" || arguments.KeepImg == true {
-							imgRGBA = writeMask(img, result, categories, ID)
+							imgRGBA = writeMask(imgRGBA, result, categories, ID)
 						}
 					} else {
 						if arguments.Preview != "" || arguments.KeepImg == true {
-							imgRGBA = writeBoundingBox(img, result, categories, ID, index)
+							imgRGBA = writeBoundingBox(imgRGBA, result, categories, ID, index)
 						}
 					}
 				}
