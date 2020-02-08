@@ -63,7 +63,7 @@ func deepdetectProcess(imagePath string, ID string, img image.Image, startTime t
     response := predict(predictURL, imageBase64, ID)
 
     // Handle response
-    printResponse(request, response, ID, img, imagePath, startTime, 0)
+    img = printResponse(request, response, ID, img, imagePath, startTime, 0)
 
   } else {
 
