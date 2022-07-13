@@ -50,7 +50,8 @@ var arguments = struct {
 	FPS      float64
 	DeviceID int
 	Video    string
-	Mirror   bool
+	HMirror   bool
+	VMirror   bool
 	// Livedetect flags
 	Output        string
 	KeepJson      bool
@@ -218,7 +219,17 @@ func argumentsParsing(args []string) {
 
 	mirror := parser.Flag("", "mirror", &argparse.Options{
 		Required: false,
-		Help:     "Flip image before preview and processing",
+		Help:     "Flip image horizontally before preview and processing. Alias for --hmirror.",
+		Default:  false})
+
+	hmirror := parser.Flag("", "hmirror", &argparse.Options{
+		Required: false,
+		Help:     "Flip image horizontally before preview and processing",
+		Default:  false})
+
+	vmirror := parser.Flag("", "vmirror", &argparse.Options{
+		Required: false,
+		Help:     "Flip image vertically before preview and processing",
 		Default:  false})
 
 	confidence := parser.Float("", "confidence", &argparse.Options{
@@ -392,7 +403,8 @@ func argumentsParsing(args []string) {
 	arguments.Init = *init
 	arguments.Width = *width
 	arguments.Height = *height
-	arguments.Mirror = *mirror
+	arguments.HMirror = *hmirror || *mirror
+	arguments.VMirror = *vmirror
 	arguments.FPS = *FPS
 	arguments.Service = *service
 
