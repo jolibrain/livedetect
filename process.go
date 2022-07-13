@@ -82,6 +82,14 @@ func process(cam *v4l.Device) {
 			os.Exit(1)
 		}
 
+		// Flip image
+		if arguments.HMirror == true {
+			img = transform.FlipH(img)
+		}
+		if arguments.VMirror == true {
+			img = transform.FlipV(img)
+		}
+
     // Keep img on disk
     if arguments.KeepImg == true {
       go keepImg(imagePath, img)
@@ -93,11 +101,6 @@ func process(cam *v4l.Device) {
 			logError("Model size specified as parameters can't be use for capture with this camera.", "[WARNING]")
 			logError("Input image will be resized during DeepDetect processing.", "[WARNING]")
 			j = 1
-		}
-
-		// Flip image
-		if arguments.Mirror == true {
-			img = transform.FlipH(img)
 		}
 
 		// Encode as base64
