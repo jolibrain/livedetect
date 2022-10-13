@@ -35,6 +35,7 @@ import (
 	"os"
 	"strconv"
 	"time"
+	"strings"
 
 	"github.com/anthonynsimon/bild/transform"
 	"github.com/korandiz/v4l"
@@ -57,12 +58,13 @@ func process(cam *v4l.Device) {
 
 		// Start processing time
 		start := time.Now()
+		startStr := strings.ReplaceAll(start.Format("2006-01-02-15-04-05.000"), ".", "-")
 
 		var imagePath string
 		if arguments.KeepImg == true {
-			imagePath = arguments.Output + "/" + start.Format("2006-01-02-15-04-05") + ".jpg"
+			imagePath = arguments.Output + "/" + startStr + ".jpg"
 		} else {
-			imagePath = start.Format("2006-01-02-15-04-05")
+			imagePath = startStr
 		}
 
 		// Read frame from camera
